@@ -36,14 +36,15 @@ func (ac *LoginInfoController) PostLogin(context iris.Context) mvc.Result {
 	ac.Ctx.ReadJSON(&loginInfo)
 
 	//数据校验
-	if loginInfo.LoginName == "" || loginInfo.LoginPwd == ""{
+	if loginInfo.LoginName == "" || loginInfo.LoginPwd == "" {
 		return mvc.Response{
 			Object: map[string]interface{}{
-				"status":"0",
-				"success":"登录失败",
-				"message":"用户名或者密码为空",
+				"status":  "0",
+				"success": "登录失败",
+				"message": "用户名或者密码为空",
 			},
 		}
+	}
 		//根据用户名，密码查询数据库
 		loginInfoData,exist :=ac.Service.GetByLoginNamePwd(loginInfo.LoginName,loginInfo.LoginPwd)
 
@@ -68,6 +69,6 @@ func (ac *LoginInfoController) PostLogin(context iris.Context) mvc.Result {
 				"message":"登录成功",
 			},
 		}
-	}
+
 
 }

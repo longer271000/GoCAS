@@ -2,8 +2,12 @@ package main
 
 import (
 	config2 "GoCAS/config"
+	"GoCAS/controller"
+	"GoCAS/datasource"
+	"GoCAS/service"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
+	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"time"
 )
@@ -84,6 +88,17 @@ func mvcHandle(app *iris.Application)  {
 		Expires: 24* time.Hour,
 
 	})
+	engine := datasource.NewMysqlEngine()
+
+	//模块功能
+	loginService := service.NewLoginInfoService(engine)
+
+	logininfo_router := mvc.New(app.Party("/login"))
+	logininfo_router.Register(
+		loginService,
+		seesManager.Start,
+		)
+	logininfo_router.Handle(new(controller.LoginInfoController))
 
 
 }

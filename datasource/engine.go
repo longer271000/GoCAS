@@ -24,4 +24,6 @@ func NewMysqlEngine() *xorm.Engine {
 	//设置显示SQL语句
 	engine.ShowSQL(true)
 	engine.SetMaxOpenConns(10)
+
+	return engine
 }
