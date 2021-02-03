@@ -5,5 +5,5 @@ type LoginInfo struct {
 	LoginName string "xorm:'varchar(32)' json:'loginName'"
 	LoginPwd string "xorm:'varchar(32)' json:'loginPwd'"
 	Status int64 "xorm:'default 0' json:'status'"
-	CreateTime int64 "xorm:'numeric(0,64)' json:'create_time'"
+	CreateTime int64 "xorm:'numeric(0,50)' json:'create_time'"
 }
