@@ -11,7 +11,7 @@ import (
 
 func NewMysqlEngine() *xorm.Engine {
 	//数据库引擎
-	engine, err := xorm.NewEngine("mysql","root:hedadata2020@/sys_cas_platform?charset=utf8")
+	engine, err := xorm.NewEngine("mysql","root:hedadata2020@tcp(192.168.0.33:3306)/sys_cas_platform?charset=utf8")
 
 	//根据实体创建表
 	err = engine.Sync2(

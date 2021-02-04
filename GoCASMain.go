@@ -5,10 +5,9 @@ import (
 	"GoCAS/controller"
 	"GoCAS/datasource"
 	"GoCAS/service"
-	"github.com/kataras/iris"
-	"github.com/kataras/iris/context"
-	"github.com/kataras/iris/mvc"
-	"github.com/kataras/iris/sessions"
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
+	"github.com/kataras/iris/v12/sessions"
 	"time"
 )
 
@@ -62,7 +61,7 @@ func configation(app *iris.Application)  {
 		Charset: "UTF-8",
 	}))
 	//错误配置-未知错误
-	app.OnErrorCode(iris.StatusNotFound, func(context *context.Context) {
+	app.OnErrorCode(iris.StatusNotFound, func(context iris.Context) {
 		context.JSON(iris.Map{
 			"drrmsg": iris.StatusNotFound,
 			"msg": "Not fount",
@@ -73,7 +72,7 @@ func configation(app *iris.Application)  {
 	})
 
 	//错误设置-未知错误
-	app.OnErrorCode(iris.StatusInternalServerError, func(context *context.Context) {
+	app.OnErrorCode(iris.StatusInternalServerError, func(context iris.Context) {
 		context.JSON(iris.Map{
 			"drrmsg": iris.StatusNotFound,
 			"msg": "Not fount",
@@ -93,13 +92,16 @@ func mvcHandle(app *iris.Application)  {
 	//模块功能
 	loginService := service.NewLoginInfoService(engine)
 
-	logininfo_router := mvc.New(app.Party("/login"))
-	logininfo_router.Register(
+	userCASRouter := mvc.New(app.Party("/user"))
+	userCASRouter.Register(
 		loginService,
 		seesManager.Start,
 		)
-	logininfo_router.Handle(new(controller.LoginInfoController))
+	userCASRouter.Handle(new(controller.LoginInfoController))
 
-
+	//公共信息
+	app.Handle("GET","/about", func(ctx iris.Context) {
+		ctx.HTML("<h1>这是统一用户授权中心</h1>")
+	})
 }
 

@@ -3,9 +3,10 @@ package controller
 import (
 	"GoCAS/service"
 	"encoding/json"
-	"github.com/kataras/iris"
-	"github.com/kataras/iris/mvc"
-	"github.com/kataras/iris/sessions"
+	"fmt"
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
+	"github.com/kataras/iris/v12/sessions"
 )
 
 type LoginInfoController struct {
@@ -34,7 +35,8 @@ json 请求格式
 func (ac *LoginInfoController) PostLogin(context iris.Context) mvc.Result {
 	var loginInfo LoginInfo
 	ac.Ctx.ReadJSON(&loginInfo)
-
+	//var loggger:=log.Logger{}
+	fmt.Println(ac.Ctx)
 	//数据校验
 	if loginInfo.LoginName == "" || loginInfo.LoginPwd == "" {
 		return mvc.Response{
@@ -52,7 +54,7 @@ func (ac *LoginInfoController) PostLogin(context iris.Context) mvc.Result {
 		if !exist{
 			return mvc.Response{
 				Object: map[string]interface{}{
-					"status":"1",
+					"status":"0",
 					"success":"登录失败",
 					"message":"用户名或者密码错误！",
 				},

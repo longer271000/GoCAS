@@ -28,7 +28,7 @@ func NewLoginInfoService(db *xorm.Engine) LoginInfoService {
 ***/
 func (ac *loginInfoService)  GetByLoginNamePwd(loginname,password string)(models.LoginInfo,bool){
  var logininfo models.LoginInfo
- ac.engine.Where(" loginname = ? and loginpwd = ?",loginname,password).Get(&logininfo)
+ ac.engine.Where(" login_name = ? and login_pwd = ?",loginname,password).Get(&logininfo)
  fmt.Println(logininfo,".........",logininfo.ID != 0)
  return logininfo,logininfo.ID !=0
 }
